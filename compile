@@ -1,0 +1,3 @@
+g++ -c main.cpp -std=gnu++0x -I/home/nieksand/usr/include
+g++ -o demo *.o -std=gnu++0x -L/home/nieksand/usr/lib -lcityhash
+rm *.o
