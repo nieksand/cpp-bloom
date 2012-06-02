@@ -32,7 +32,7 @@ class BloomFilter {
          *
          * \param    expectedElemCnt   Expected element count.
          */
-        BloomFilter( long expectedElemCnt );
+        BloomFilter( std::size_t expectedElemCnt );
 
 
         /**
@@ -71,6 +71,13 @@ class BloomFilter {
          */
         bool containsElement( long elementId ) const;
 
+        /** 
+         * Get hash function count.
+         * 
+         * \return   Number of hash functions being used.
+         */
+        int getHashCount( void ) const;
+
         /**
          * Union filter contents with another bloom filter.
          *
@@ -84,6 +91,19 @@ class BloomFilter {
          * \param    rhs   Right hand side.
          */
         void intersectWith( const BloomFilter<NumBits>& rhs );
+
+
+    private:
+        /**
+         * Get optimal hash function count.
+         *
+         * This is based on the bitvector size and expected number of elements.
+         *
+         * \param    expectedElemCnt   Expected element count.
+         *
+         * \return   optimal hash function count.
+         */
+        int getOptimalHashCount( std::size_t expectedElemCnt ) const;
 
 
     private:
@@ -103,9 +123,11 @@ class BloomFilter {
  * Ctor
  */
 template< std::size_t NumBits >
-BloomFilter<NumBits>::BloomFilter( long expectedElemCnt )
-    : numHashes_( 3 ), bloomBits_( new std::bitset<NumBits>() ) {
+BloomFilter<NumBits>::BloomFilter( std::size_t expectedElemCnt )
+    : numHashes_( -1 ), bloomBits_( new std::bitset<NumBits>() ) {
 
+    // based on bitvector size and expected element count
+    numHashes_ = this->getOptimalHashCount( expectedElemCnt );
 }
 
 
@@ -204,6 +226,23 @@ template< std::size_t NumBits >
 void
 BloomFilter<NumBits>::intersectWith( const BloomFilter<NumBits>& rhs ) {
     *(this->bloomBits_) &= rhs.bloomBits_;
+}
+
+
+/*
+ * Optimal hash count
+ */
+template< std::size_t NumBits >
+int
+BloomFilter<NumBits>::getOptimalHashCount( std::size_t expectedElemCnt ) const {
+
+    // corner case
+    if ( expectedElemCnt == 0 ) {
+        return 1;
+    }
+
+    // ceil[(m/n) * ln(2)]
+    return static_cast<int>( NumBits / expectedElemCnt * 0.693147181 + 0.5 );
 }
 
 
