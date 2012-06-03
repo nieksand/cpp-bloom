@@ -1,6 +1,7 @@
 #ifndef BLOOMFILTER_H
 #define BLOOMFILTER_H
 
+#include <algorithm>
 #include <bitset>
 #include <memory>
 
@@ -17,7 +18,8 @@
  * This is combined with a double-hashing technique to generate the K hashes
  * needed for the bloom filter.  An explanation of this can be found here:
  *
- *     "XYZ PAPER"
+ *     "Less hashing, same performance: Building a better bloom filter"
+ *      - Kirsch and Mitzenmacher
  *
  */
 template< std::size_t NumBits >
@@ -31,8 +33,11 @@ class BloomFilter {
          * distinct hash functions applied to each input element.
          *
          * \param    expectedElemCnt   Expected element count.
+         * \param    numHashes         Number of hashes to use.  Default
+         *                             value will use compute optimum based on
+         *                             bitvector size and element count.
          */
-        BloomFilter( std::size_t expectedElemCnt );
+        BloomFilter( std::size_t expectedElemCnt, int numHashes = -1 );
 
 
         /**
@@ -71,9 +76,9 @@ class BloomFilter {
          */
         bool containsElement( long elementId ) const;
 
-        /** 
+        /**
          * Get hash function count.
-         * 
+         *
          * \return   Number of hash functions being used.
          */
         int getHashCount( void ) const;
@@ -123,11 +128,14 @@ class BloomFilter {
  * Ctor
  */
 template< std::size_t NumBits >
-BloomFilter<NumBits>::BloomFilter( std::size_t expectedElemCnt )
-    : numHashes_( -1 ), bloomBits_( new std::bitset<NumBits>() ) {
+BloomFilter<NumBits>::BloomFilter( std::size_t expectedElemCnt,
+                                   int numHashes )
+    : numHashes_( numHashes ), bloomBits_( new std::bitset<NumBits>() ) {
 
     // based on bitvector size and expected element count
-    numHashes_ = this->getOptimalHashCount( expectedElemCnt );
+    if ( numHashes == -1 ) {
+        numHashes_ = this->getOptimalHashCount( expectedElemCnt );
+    }
 }
 
 
@@ -210,6 +218,16 @@ BloomFilter<NumBits>::containsElement( long elementId ) const {
 
 
 /*
+ * Get hash count
+ */
+template< std::size_t NumBits >
+int
+BloomFilter<NumBits>::getHashCount( void ) const {
+    return numHashes_;
+}
+
+
+/*
  * Union with filters
  */
 template< std::size_t NumBits >
@@ -241,8 +259,12 @@ BloomFilter<NumBits>::getOptimalHashCount( std::size_t expectedElemCnt ) const {
         return 1;
     }
 
-    // ceil[(m/n) * ln(2)]
-    return static_cast<int>( NumBits / expectedElemCnt * 0.693147181 + 0.5 );
+    // floor[(m/n) * ln(2)]
+    double bitsPerElement = static_cast<double>(NumBits) / expectedElemCnt;
+    int optimalK = static_cast<int>( bitsPerElement * 0.693147181 );
+
+    // ensure at least one hash
+    return std::max( optimalK, 1 );
 }
 
 
