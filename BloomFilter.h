@@ -40,6 +40,12 @@ class BloomFilter {
 
 
         /**
+         * Destructor.
+         */
+        virtual ~BloomFilter( void );
+
+
+        /**
          * Copy ctor.
          *
          * \param    src   Source to copy.
@@ -60,20 +66,22 @@ class BloomFilter {
         /**
          * Add element to filter.
          *
-         * \param    elementId   Element id.
+         * \param    elementBegin   Beginning of element data.
+         * \param    numBytes       Number of bytes for element.
          */
-        void addElement( long elementId );
+        void addElement( char* elementBegin, std::size_t numBytes );
 
         /**
          * Check if element is in filter.  This may return false positives, but
          * will never return false negatives.
          *
-         * \param    elementId   Element id.
+         * \param    elementBegin   Beginning of element data.
+         * \param    numBytes       Number of bytes for element.
          *
          * \return   True if element is possibly inside filter; false if element
          *           is definitely not inside filter.
          */
-        bool containsElement( long elementId ) const;
+        bool containsElement( char* elementBegin, std::size_t numBytes ) const;
 
         /**
          * Get hash function count.
@@ -139,6 +147,15 @@ BloomFilter<NumBits>::BloomFilter( std::size_t expectedElemCnt,
 
 
 /*
+ * Dtor
+ */
+template< std::size_t NumBits >
+BloomFilter<NumBits>::~BloomFilter( void ) {
+    // allows for proper destruction of derived classes
+}
+
+
+/*
  * Copy ctor
  */
 template< std::size_t NumBits >
@@ -174,11 +191,10 @@ BloomFilter<NumBits>::operator=( const BloomFilter<NumBits>& rhs ) {
  */
 template< std::size_t NumBits >
 void
-BloomFilter<NumBits>::addElement( long elementId ) {
+BloomFilter<NumBits>::addElement( char* elementBegin, std::size_t numBytes ) {
 
     // Google CityHash
-    char* elemPtr = reinterpret_cast<char*>( &elementId );
-    uint128 hash = CityHash128( elemPtr, sizeof(elementId) );
+    uint128 hash = CityHash128( elementBegin, numBytes );
 
     // double-hashing to simulate k independent hashes
     for ( int k = 0; k < numHashes_; ++k ) {
@@ -195,11 +211,11 @@ BloomFilter<NumBits>::addElement( long elementId ) {
  */
 template< std::size_t NumBits >
 bool
-BloomFilter<NumBits>::containsElement( long elementId ) const {
+BloomFilter<NumBits>::containsElement( char* elementBegin,
+                                       std::size_t numBytes ) const {
 
     // Google CityHash for double hashing
-    char* elemPtr = reinterpret_cast<char*>( &elementId );
-    uint128 hash = CityHash128( elemPtr, sizeof(elementId) );
+    uint128 hash = CityHash128( elementBegin, numBytes );
 
     // unset bits mean definitely not in set
     for ( int k = 0; k < numHashes_; ++k ) {

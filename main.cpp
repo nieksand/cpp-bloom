@@ -1,20 +1,20 @@
 #include <iostream>
 
-#include "BloomFilter.h"
+#include "PrimitiveBloomFilter.h"
 
 
-/** 
+/**
  * Main program.
- * 
+ *
  * \param    argc   Number of command line arguments.
  * \param    argv   Text of command line arguments.
- * 
+ *
  * \return   zero if successful; nonzero otherwise.
  */
-int 
+int
 main( int argc, char* argv[] ) {
 
-    BloomFilter<800> bf( 100 );
+    PrimitiveBloomFilter<long,800> bf( 100 );
 
     // add in elements
     int j =0 ;
