@@ -71,6 +71,7 @@ class BloomFilter {
          */
         void addElement( char* elementBegin, std::size_t numBytes );
 
+
         /**
          * Check if element is in filter.  This may return false positives, but
          * will never return false negatives.
@@ -83,6 +84,7 @@ class BloomFilter {
          */
         bool containsElement( char* elementBegin, std::size_t numBytes ) const;
 
+
         /**
          * Get hash function count.
          *
@@ -90,12 +92,14 @@ class BloomFilter {
          */
         int getHashCount( void ) const;
 
+
         /**
          * Union filter contents with another bloom filter.
          *
          * \param    rhs   Right hand side.
          */
         void unionWith( const BloomFilter<NumBits>& rhs );
+
 
         /**
          * Intersection filter contents with another bloom filter.
