@@ -29,13 +29,12 @@ class BloomFilter {
         /**
          * Constructor.
          *
-         * The expected element count is used to determine the number of
-         * distinct hash functions applied to each input element.
+         * By default, the expected element count is used to determine the
+         * number of distinct hash functions applied to each input element.
+         * This can be overridden by supplying an explicit hash count.
          *
          * \param    expectedElemCnt   Expected element count.
-         * \param    numHashes         Number of hashes to use.  Default
-         *                             value will use compute optimum based on
-         *                             bitvector size and element count.
+         * \param    numHashes         Number of hashes to use.
          */
         BloomFilter( std::size_t expectedElemCnt, int numHashes = -1 );
 
