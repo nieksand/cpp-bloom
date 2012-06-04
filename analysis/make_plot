@@ -1,0 +1,14 @@
+set log x
+set xrange [100:80000]
+set yrange [0:1]
+
+set key left top
+set title "False Positives vs Bits/Element, # hashes optimal"
+set xlabel "Actual Elements Inserted"
+set ylabel "Probably of False Positive"
+
+plot 'theory_error.dat' using 1:2 with lines title 'bit/elem = 3', \
+                     '' using 1:3 with lines title 'bit/elem = 6', \
+                     '' using 1:4 with lines title 'bit/elem = 9', \
+                     '' using 1:5 with lines title 'bit/elem = 12'
+
