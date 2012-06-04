@@ -17,7 +17,7 @@ main( int argc, char* argv[] ) {
     }
 
     // actual element insertions
-    for ( int i = 0; i <= 80000; ++i ) {
+    for ( int i = 1; i <= 80000; ++i ) {
 
         std::cout << i << ' ';
 
