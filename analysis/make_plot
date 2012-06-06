@@ -2,13 +2,16 @@ set log x
 set xrange [100:80000]
 set yrange [0:1]
 
-set key left top
-set title "False Positives vs Bits/Element, # hashes optimal"
+set key Left left top
+set title "False Positives vs Bits/Element"
 set xlabel "Actual Elements Inserted"
 set ylabel "Probably of False Positive"
 
-plot 'theory_error.dat' using 1:2 with lines title 'bit/elem = 3', \
-                     '' using 1:3 with lines title 'bit/elem = 6', \
-                     '' using 1:4 with lines title 'bit/elem = 9', \
-                     '' using 1:5 with lines title 'bit/elem = 12'
-
+plot 'theory_error.dat' using 1:2 with lines title 'bits/element = 3'  linecolor rgb "red",    \
+                     '' using 1:3 with lines title 'bits/element = 6'  linecolor rgb "green",  \
+                     '' using 1:4 with lines title 'bits/element = 9'  linecolor rgb "blue",   \
+                     '' using 1:5 with lines title 'bits/element = 12' linecolor rgb "purple", \
+     'actual_error.dat' using 1:2 with points notitle linecolor rgb "red",    \
+                     '' using 1:3 with points notitle linecolor rgb "green",  \
+     'actual_error.dat' using 1:4 with points notitle linecolor rgb "blue",   \
+     'actual_error.dat' using 1:5 with points notitle linecolor rgb "purple" 
