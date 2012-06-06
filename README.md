@@ -15,7 +15,7 @@ Feedback is greatly appreciated.
 
 Compilation
 -----------
-This filter uses Google's CityHash code, which can be downloaded here:
+This bloom filter uses Google's CityHash code, which can be downloaded here:
 
   http://code.google.com/p/cityhash/
 
