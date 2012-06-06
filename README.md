@@ -35,8 +35,8 @@ The demonstration program includes a series of unit tests.  In order to minimize
 dependencies, this does not leverage a unit testing framework.  Just run the
 demo program and you will see the test results.
 
-In addition to unit testing, the false-positives performance of the bloom filter
-was compared against theoretical results:
+In addition to unit testing, the bloom filter false-positives counts have been
+compared against the theoretical expected behavior:
 
 ![Bloom Filter False Positives](https://github.com/downloads/nieksand/cpp-bloom/bloom-error-performance.png)
 
