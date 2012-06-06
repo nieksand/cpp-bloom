@@ -45,7 +45,7 @@ compared against the theoretical expected behavior:
 
 The solid lines show the expected theoretical false positive rate.  The dot
 marks show the actual performance of this bloom filter implementation.   The
-close overlap indicates that this code is operating as expected.  This results
+close overlap indicates that this code is operating as expected.  These results
 can be reproduced using the code in the "analysis" subdirectory.  See the readme
 file in that directory for additional details.
 
