@@ -13,9 +13,9 @@
 #include "PrimitiveBloomFilter.h"
 
 
-/** 
+/**
  * Test add and contain element.
- * 
+ *
  * \return   Whether test was passed.
  */
 bool
@@ -40,12 +40,12 @@ testAddContainElement( void ) {
 }
 
 
-/** 
+/**
  * Test hash count.
  *
  * Expected values come from:
  *   http://pages.cs.wisc.edu/~cao/papers/summary-cache/node8.html
- * 
+ *
  * \return   Whether test was passed.
  */
 bool
@@ -79,25 +79,63 @@ testGetHashCount( void ) {
 }
 
 
-/** 
+/**
  * Test filter union.
- * 
+ *
  * \return   Whether test was passed.
  */
 bool
 testUnionWith( void ) {
-    return false;
+
+    // two bloom filters, each with an element
+    PrimitiveBloomFilter<long,10000> bfA( 1000 );
+    bfA.addElement( 7 );
+
+    PrimitiveBloomFilter<long,10000> bfB( 1000 );
+    bfB.addElement( 100 );
+
+    // union should contain both elements
+    bfA.unionWith( bfB );
+    if ( !bfA.containsElement( 7 ) || !bfB.containsElement( 100 ) ) {
+        return false;
+    }
+
+    return true;
 }
 
 
-/** 
+/**
  * Test filter intersection.
- * 
+ *
  * \return   Whether test was passed.
  */
 bool
 testIntersectWith( void ) {
-    return false;
+
+    // two bloom filters
+    PrimitiveBloomFilter<float,5000> bfA( 1000, 3 );
+    bfA.addElement( 12.3 );
+
+    PrimitiveBloomFilter<float,5000> bfB( 1000, 3 );
+    bfB.addElement( 40 );
+
+    // ensure elements are in their own filters
+    if ( !bfA.containsElement( 12.3 ) || !bfB.containsElement( 40 ) ) {
+        return false;
+    }
+
+    // elements hashing to same filter mean intersection test won't work
+    if ( bfA.containsElement( 40 ) || bfB.containsElement( 12.3 ) ) {
+        return false;
+    }
+
+    // neither element should be in intersection
+    bfA.intersectWith( bfB );
+    if ( bfA.containsElement( 40 ) || bfA.containsElement( 12.3 ) ) {
+        return false;
+    }
+
+    return true;
 }
 
 
@@ -127,6 +165,17 @@ main( int argc, char* argv[] ) {
         ++testFailureCnt;
     }
 
+    // boom filter union
+    if ( !testUnionWith() ) {
+        std::cerr << "\nERROR: union test failed" << std::endl;
+        ++testFailureCnt;
+    }
+
+    // bloom filter intersection
+    if ( !testIntersectWith() ) {
+        std::cerr << "\nERROR: intersection test failed" << std::endl;
+        ++testFailureCnt;
+    }
 
     // test results
     if ( testFailureCnt == 0 ) {
