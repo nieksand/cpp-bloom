@@ -14,6 +14,7 @@
 #include <algorithm>
 #include <bitset>
 #include <memory>
+#include <stdexcept>
 
 #include "city.h"
 
@@ -262,7 +263,14 @@ BloomFilter<NumBits>::getHashCount( void ) const {
 template< std::size_t NumBits >
 void
 BloomFilter<NumBits>::unionWith( const BloomFilter<NumBits>& rhs ) {
-    *(this->bloomBits_) |= rhs.bloomBits_;
+
+    // sanity check
+    if ( this->getHashCount() != rhs.getHashCount() ) {
+        throw std::invalid_argument( 
+                    "Union for bloom filters with different hash counts" );
+    }
+
+    *(this->bloomBits_) |= *(rhs.bloomBits_);
 }
 
 
@@ -272,7 +280,14 @@ BloomFilter<NumBits>::unionWith( const BloomFilter<NumBits>& rhs ) {
 template< std::size_t NumBits >
 void
 BloomFilter<NumBits>::intersectWith( const BloomFilter<NumBits>& rhs ) {
-    *(this->bloomBits_) &= rhs.bloomBits_;
+
+    // sanity check
+    if ( this->getHashCount() != rhs.getHashCount() ) {
+        throw std::invalid_argument( 
+                    "Union for bloom filters with different hash counts" );
+    }
+
+    *(this->bloomBits_) &= *(rhs.bloomBits_);
 }
 
 
