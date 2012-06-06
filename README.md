@@ -1,6 +1,6 @@
 Overview
 --------
-This is a standard bloom filter implemented in C++.  
+This is a standard bloom filter implemented in C++.
 
 It uses Google's CityHash algorithm together with a double hashing technique for
 speed and accuracy.
@@ -36,9 +36,7 @@ Coming soon.
 
 Correctness
 -----------
-The demonstration program includes a series of unit tests.  In order to minimize
-dependencies, this does not leverage a unit testing framework.  Just run the
-demo program and you will see the test results.
+The included demo program performs a series of unit tests.
 
 In addition to unit testing, the bloom filter false-positives counts have been
 compared against the theoretical expected behavior:
