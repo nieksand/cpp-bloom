@@ -1,3 +1,13 @@
+/**
+ * \file BloomFilter.h
+ *
+ * BloomFilter template.
+ *
+ * This code is provided free of charge and without restrictions.  It may be
+ * used for commercial products. It may be redistributed. It may be modified.
+ * IT COMES WITH NO WARRANTY OF ANY SORT.
+ *
+ */
 #ifndef BLOOMFILTER_H
 #define BLOOMFILTER_H
 
