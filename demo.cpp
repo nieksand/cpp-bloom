@@ -58,14 +58,14 @@ testGetHashCount( void ) {
     }
 
     // ten bits per element
-    PrimitiveBloomFilter<char,500> bfBits10( 100 );
-    if ( bfBits5.getHashCount() != 6 ) {
+    PrimitiveBloomFilter<char,1000> bfBits10( 100 );
+    if ( bfBits10.getHashCount() != 6 ) {
         return false;
     }
 
     // twelve bits per element
     PrimitiveBloomFilter<long,3600> bfBits12( 300 );
-    if ( bfBits5.getHashCount() != 8 ) {
+    if ( bfBits12.getHashCount() != 8 ) {
         return false;
     }
 
