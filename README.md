@@ -29,6 +29,11 @@ Usage
 Coming soon.
 
 
+Thread Safety
+-------------
+Coming soon.
+
+
 Correctness
 -----------
 The demonstration program includes a series of unit tests.  In order to minimize
