@@ -28,12 +28,13 @@ Usage
 -----
 See the included demo program for basic usage examples.
 
-A bloom filter has two fundamental operations: addElement() and containsElement().
+A bloom filter has two fundamental operations: addElement() and
+containsElement().
 
-  The addElement() operation does what the name implies.  
+  * addElement() operation does what the name implies.  
 
-  The containsElement() query may give false positives about set membership, but
-  it may never give false negatives.
+  * containsElement() query may give false positives about set membership, but
+    it may never give false negatives.
 
 There are also routines for computing union and intersection between filters.
 The union operation is useful when combining results from a distributed
