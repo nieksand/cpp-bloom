@@ -26,7 +26,23 @@ executable.
 
 Usage
 -----
-Coming soon.
+See the included demo program for basic usage examples.
+
+A bloom filter has two fundamental operations: addElement() and containsElement().
+
+  The addElement() operation does what the name implies.  
+
+  The containsElement() query may give false positives about set membership, but
+  it may never give false negatives.
+
+There are also routines for computing union and intersection between filters.
+The union operation is useful when combining results from a distributed
+computation.  Each thread or process computes filters for its portion of the
+input.  These partial results are unioned together to give a filter for the
+complete set.
+
+The included PrimitiveBloomFilter template is simply a wrapper around
+BloomFilter that provides a nicer programming interface.
 
 
 Thread Safety
