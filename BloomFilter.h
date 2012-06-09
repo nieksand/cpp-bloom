@@ -142,7 +142,7 @@ class BloomFilter {
         /**
          * Bloom filter bit vector.
          */
-        std::unique_ptr< std::bitset<NumBits> > bloomBits_;
+        std::auto_ptr< std::bitset<NumBits> > bloomBits_;
 };
 
 
