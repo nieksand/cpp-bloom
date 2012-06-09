@@ -16,5 +16,5 @@ After compiling the code, the results can be visualized using GnuPlot:
     ./error_rate
     gnuplot < make_plot
 
-GnuPlot will generate a PNG graph showing the expected theoretical behavior
+GnuPlot will generate a PNG image showing the expected theoretical behavior
 (solid lines) against the actual behavior (dots).
