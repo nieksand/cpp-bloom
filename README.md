@@ -52,7 +52,10 @@ BloomFilter that provides a nicer programming interface.
 
 Thread Safety
 -------------
-Coming soon.
+This code will be reentrant if your C++ STL implementation is also reentrant.  
+
+The default distribution is not thread safe, but can be made so via fairly
+trivial changes.
 
 
 Correctness
