@@ -20,7 +20,7 @@ This bloom filter uses Google's CityHash code, which can be downloaded here:
   http://code.google.com/p/cityhash/
 
 Simply update the -I and -L paths in the compile script to point at the CityHash
-libraries and headers.  Running the compile script will generate a demo
+headers and libraries.  Running the compile script will generate a demo
 executable.
 
 
