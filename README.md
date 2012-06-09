@@ -5,6 +5,10 @@ This is a standard bloom filter implemented in C++.
 It uses Google's CityHash algorithm together with a double hashing technique for
 speed and accuracy.
 
+Background on the double hashing technique can be found in "Less hashing,
+same performance: Building a better bloom filter" by Kirsch and Mitzenmacher.
+(http://dx.doi.org/10.1002/rsa.v33:2)
+
 
 Contact
 -------
@@ -31,7 +35,7 @@ See the included demo program for basic usage examples.
 A bloom filter has two fundamental operations: addElement() and
 containsElement().
 
-  * addElement() operation does what the name implies.  
+  * addElement() operation does what the name implies.
 
   * containsElement() query may give false positives about set membership, but
     it may never give false negatives.
